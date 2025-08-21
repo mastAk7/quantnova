@@ -103,4 +103,17 @@ app.post("/api/allocate", (req, res) => {
 app.use("/public", express.static(path.join(__dirname, "public")));
 
 const port = process.env.PORT || 5000;
+
+// Serve React client in production if built
+const clientDist = path.join(__dirname, "..", "client", "dist");
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get("*", (req, res) => {
+    if (req.path.startsWith("/api") || req.path.startsWith("/public")) {
+      return res.status(404).json({ error: "Not found" });
+    }
+    return res.sendFile(path.join(clientDist, "index.html"));
+  });
+}
+
 app.listen(port, () => console.log(`🚀 Server listening on port ${port}`));
