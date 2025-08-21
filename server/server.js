@@ -51,11 +51,11 @@ app.get("/api/stats", (req, res) => {
 
 app.post("/api/leads", async (req, res) => {
   try {
-    const { name, email, investorType, message } = req.body || {};
+    const { name, email, investorType, message, requestPitchDeck } = req.body || {};
     if (!name || !email) {
       return res.status(400).json({ error: "Name and email are required." });
     }
-    const lead = await Lead.create({ name, email, investorType, message });
+    const lead = await Lead.create({ name, email, investorType, message, requestPitchDeck: Boolean(requestPitchDeck) });
     res.status(201).json({ ok: true, lead });
   } catch (err) {
     console.error("Lead create error:", err.message);
@@ -71,6 +71,32 @@ app.get("/api/pitch-deck", (req, res) => {
   } else {
     res.status(404).json({ error: "Pitch deck not found. Drop a pitch-deck.pdf in server/public." });
   }
+});
+
+// Simple illustrative allocator endpoint for demo sandbox
+app.post("/api/allocate", (req, res) => {
+  const { regime = "Growth", volatility = 15 } = req.body || {};
+  const base = [
+    { strategy: "Factor Equity", w: 30 },
+    { strategy: "Stat-Arb", w: 15 },
+    { strategy: "Volatility Trading", w: 15 },
+    { strategy: "AI/ML Alpha", w: 20 },
+    { strategy: "Alternative Data", w: 10 },
+    { strategy: "Macro Overlays", w: 10 },
+  ];
+  let adj = 0;
+  if (regime.toLowerCase().startsWith("inflation")) adj = 5;
+  if (regime.toLowerCase().startsWith("recession")) adj = 10;
+  const volAdj = Math.max(-5, Math.min(5, 15 - Number(volatility)));
+  const allocation = base.map((b) => {
+    let weight = b.w;
+    if (b.strategy === "Macro Overlays") weight += adj;
+    if (b.strategy === "Volatility Trading") weight += -volAdj;
+    return { strategy: b.strategy, weight: Math.max(0, Math.round(weight)) };
+  });
+  const total = allocation.reduce((s, a) => s + a.weight, 0) || 1;
+  const normalized = allocation.map((a) => ({ ...a, weight: Math.round((a.weight / total) * 100) }));
+  res.json({ regime, volatility, allocation: normalized });
 });
 
 // Static files
