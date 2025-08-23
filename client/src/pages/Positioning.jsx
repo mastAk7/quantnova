@@ -10,9 +10,11 @@ export default function Positioning() {
   return (
     <div className="container">
       <h2>QuantNova Fund: The Future of Hedge Funds in India</h2>
-      <ul className="small">
-        {bullets.map((b) => <li key={b}>{b}</li>)}
-      </ul>
+      <div className="grid" style={{ marginBottom: 48, gap: 24 }}>
+        {(bullets || []).map((r) => (
+          <div key={r} className="card">{r}</div>
+        ))}
+      </div>
       <div className="card">
         <h3>Old Hedge Funds vs QuantNova</h3>
         <p className="small">

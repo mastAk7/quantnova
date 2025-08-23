@@ -58,11 +58,6 @@ export default function Portfolio() {
         </div>
       </div>
 
-      <div className="grid" style={{ marginBottom: 16 }}>
-        {(risk || []).map((r) => (
-          <div key={r} className="card">{r}</div>
-        ))}
-      </div>
 
       <div className="card">
         <h3>Simulated Allocation</h3>
@@ -75,6 +70,11 @@ export default function Portfolio() {
             </div>
           ))}
         </div>
+      </div>
+      <div className="grid" style={{ marginBottom: 16 }}>
+        {(risk || []).map((r) => (
+          <div key={r} className="card">{r}</div>
+        ))}
       </div>
     </div>
   );

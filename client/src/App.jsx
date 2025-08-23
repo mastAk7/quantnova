@@ -10,6 +10,7 @@ import Compliance from "./pages/Compliance.jsx";
 import Risk from "./pages/Risk.jsx";
 import Positioning from "./pages/Positioning.jsx";
 import Contact from "./pages/Contact.jsx";
+import VolatilityChart from "./pages/VolatilityChart.jsx";
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/capital" element={<Capital />} />
         <Route path="/technology" element={<Technology />} />
-        <Route path="/compliance" element={<Compliance />} />
+        <Route path="/chart" element={<VolatilityChart />} />
         <Route path="/risk" element={<Risk />} />
         <Route path="/positioning" element={<Positioning />} />
         <Route path="/contact" element={<Contact />} />

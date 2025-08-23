@@ -26,3 +26,11 @@ Open the client dev URL (usually http://localhost:5173).
 - All site copy comes from `GET /api/stats` (edit `server/data/stats.js`).
 
 > Disclaimer: This demo is **not** investment advice and is for educational purposes only.
+
+
+# Model
+
+```cmd
+.venv\Scripts\activate
+python -m uvicorn app:app --reload --port 8000
+```

@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import fetch from "node-fetch";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 
-const allowedOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
+const allowedOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173" || "http://127.0.0.1:8000/";
 app.use(cors({ origin: allowedOrigin }));
 
 // MongoDB
@@ -40,6 +41,8 @@ import Lead from "./models/Lead.js";
 
 // Data (simple in-memory/static endpoints for MVP)
 import stats from "./data/stats.js";
+
+
 
 app.get("/api/health", (req, res) => {
   res.json({ ok: true, time: new Date().toISOString() });
@@ -101,6 +104,19 @@ app.post("/api/allocate", (req, res) => {
 
 // Static files
 app.use("/public", express.static(path.join(__dirname, "public")));
+
+app.get("/api/volatility", async (req, res) => {
+  const { symbol, window = 10, start = "2015-01-01", end = "2025-01-01" } = req.query;
+  try {
+    const r = await fetch(
+      `http://127.0.0.1:8000/api/volatility?symbol=${encodeURIComponent(symbol)}&window=${window}&start=${start}&end=${end}`
+    );
+    const body = await r.json();
+    res.status(r.status).json(body);
+  } catch (e) {
+    res.status(500).json({ detail: e.message });
+  }
+});
 
 const port = process.env.PORT || 5000;
 

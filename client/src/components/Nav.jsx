@@ -15,8 +15,8 @@ export default function Nav() {
           <NavLink to="/strategies" onClick={close}>Strategies</NavLink>
           <NavLink to="/portfolio" onClick={close}>Risk</NavLink>
           <NavLink to="/capital" onClick={close}>Capital</NavLink>
-          <NavLink to="/technology" onClick={close}>Technology</NavLink>
-          <NavLink to="/compliance" onClick={close}>Compliance</NavLink>
+          {/* <NavLink to="/technology" onClick={close}>Technology</NavLink> */}
+          <NavLink to="/chart" onClick={close}>Volatility</NavLink>
           <NavLink to="/positioning" onClick={close}>Why Us</NavLink>
           <NavLink to="/contact" className="btn" onClick={close}>Request Access</NavLink>
         </div>
