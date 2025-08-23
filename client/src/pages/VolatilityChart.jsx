@@ -101,7 +101,7 @@ export default function VolatilityChart() {
     setError("");
     try {
       const res = await fetch(
-        `/api/volatility?symbol=${encodeURIComponent(symbol)}&window=${windowSize}`
+        `https://quantnova.onrender.com/api/volatility?symbol=${encodeURIComponent(symbol)}&window=${windowSize}`
       );
       const ct = res.headers.get("content-type") || "";
       const payload = ct.includes("application/json") ? await res.json() : { detail: await res.text() };
