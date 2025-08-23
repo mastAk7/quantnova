@@ -19,7 +19,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 
-const allowedOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173" || "http://127.0.0.1:8000/";
+const allowedOrigin = process.env.CLIENT_ORIGIN || process.env.MODEL_ORIGIN || "http://localhost:5173" || "http://127.0.0.1:8000/";
 app.use(cors({ origin: allowedOrigin }));
 
 // MongoDB
