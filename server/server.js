@@ -107,6 +107,7 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.get("/api/volatility", async (req, res) => {
   const { symbol, window = 10, start = "2015-01-01", end = "2025-01-01" } = req.query;
+  console.log(process.env.MODEL_ORIGIN)
   try {
     const r = await fetch(
       `${process.env.MODEL_ORIGIN}/api/volatility?symbol=${encodeURIComponent(symbol)}&window=${window}&start=${start}&end=${end}`
@@ -133,3 +134,4 @@ if (fs.existsSync(clientDist)) {
 }
 
 app.listen(port, () => console.log(`🚀 Server listening on port ${port}`));
+console.log(process.env.MODEL_ORIGIN)
