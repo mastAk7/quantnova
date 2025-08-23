@@ -109,7 +109,7 @@ app.get("/api/volatility", async (req, res) => {
   const { symbol, window = 10, start = "2015-01-01", end = "2025-01-01" } = req.query;
   try {
     const r = await fetch(
-      `http://127.0.0.1:8000/api/volatility?symbol=${encodeURIComponent(symbol)}&window=${window}&start=${start}&end=${end}`
+      `${process.env.MODEL_ORIGIN}/api/volatility?symbol=${encodeURIComponent(symbol)}&window=${window}&start=${start}&end=${end}`
     );
     const body = await r.json();
     res.status(r.status).json(body);
